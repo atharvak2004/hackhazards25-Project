@@ -44,18 +44,37 @@ router.get("/mine", protect, async (req, res) => {
 //POST /api/sessions
 //Public
 router.post("/", protect, async (req, res) => {
-  const { mentorName, date, time, message } = req.body;
-  const userId = req.user._id;
-  const userName = req.user.name;
+  // Only students can book
+  if (req.user.role !== "student") {
+    return res.status(403).json({ message: "Only students can book sessions." });
+  }
 
+  const { mentorName, date, time, message } = req.body;
+
+  // Basic field validation
   if (!mentorName || !date || !time) {
-    return res.status(400).json({ message: "Missing required fields" });
+    return res.status(400).json({ message: "Missing required fields." });
   }
 
   try {
+    //Prevent duplicate bookings (same student, mentor, date, and time)
+    const existingSession = await Session.findOne({
+      userId: req.user._id,
+      mentorName,
+      date,
+      time,
+    });
+
+    if (existingSession) {
+      return res.status(409).json({
+        message: "You already booked this mentor at this date and time.",
+      });
+    }
+
+    // Save new session
     const session = new Session({
-      userId,        // ✅ comes from verified JWT user
-      userName,      // ✅ comes from verified JWT user
+      userId: req.user._id,
+      userName: req.user.name,
       mentorName,
       date,
       time,
@@ -69,7 +88,6 @@ router.post("/", protect, async (req, res) => {
     res.status(500).json({ message: "Booking failed" });
   }
 });
-
 
 
 module.exports = router;

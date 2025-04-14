@@ -19,20 +19,25 @@ const protect = async (req, res, next) => {
 
       if (!user) {
         return res.status(401).json({ message: "User not found" });
-      }
+      } 
 
       // 4. Attach user to request
       req.user = user;
 
       if (user.role === "mentor") {
-        await Mentor.create({
-          name: user.name,
-          bio: "New mentor, bio coming soon",
-          expertise: ["General"],
-          available: true,
-          profileImage: "https://via.placeholder.com/150"
-        });
+        const existingMentor = await Mentor.findOne({ userId: user._id });
+        if (!existingMentor) {
+          await Mentor.create({
+            userId: user._id,
+            name: user.name,
+            bio: "New mentor, bio coming soon ",
+            expertise: ["General"],
+            available: true,
+            profileImage: "https://via.placeholder.com/150"
+          });
+        }
       }
+
 
       // 5. Continue
       next();

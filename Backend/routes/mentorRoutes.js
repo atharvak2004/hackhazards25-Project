@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Mentor = require("../models/Mentor");
 const User = require("../models/User");
+const protect = require("../middleware/authMiddleware");
 
 //Get all mentors
 //GET /api/mentors
@@ -26,6 +27,24 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+router.get("/me", protect, async (req, res)=>{
+  if (req.user.role !== "mentor") {
+    return res.status(403).json({ message: "Only mentors can view this route." });
+  }
+
+  try {
+    const mentor = await Mentor.findOne({ userId: req.user._id });
+    if (!mentor) {
+      return res.status(404).json({ message: "Mentor profile not found." });
+    }
+    res.json(mentor);
+  } catch (err) {
+    console.error("Error fetching mentor profile:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 //Add a mentor
 //POST /api/mentors
 router.post("/", async (req, res) => {
@@ -44,6 +63,38 @@ router.post("/", async (req, res) => {
 
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+});
+
+
+router.put("/me", protect, async (req, res) => {
+  // Restrict to mentors only
+  if (req.user.role !== "mentor") {
+    return res.status(403).json({ message: "Only mentors can update their profile." });
+  }
+
+  const updates = {
+    bio: req.body.bio,
+    expertise: req.body.expertise,
+    available: req.body.available,
+    profileImage: req.body.profileImage,
+  };
+
+  try {
+    const mentor = await Mentor.findOneAndUpdate(
+      { userId: req.user._id },
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!mentor) {
+      return res.status(404).json({ message: "Mentor profile not found." });
+    }
+
+    res.json(mentor);
+  } catch (error) {
+    console.error("Mentor profile update error:", error);
+    res.status(500).json({ message: "Failed to update mentor profile." });
   }
 });
 
