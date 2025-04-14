@@ -6,6 +6,9 @@ import SessionFeedback from "./pages/SessionFeedback";
 import Trends from "./pages/Trends";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import MySessions from "./pages/MySessions";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 function App() {
 
@@ -18,6 +21,9 @@ function App() {
         <Route path="/book" element={<BookSession />} />
         <Route path="/feedback" element={<SessionFeedback />} />
         <Route path="/trends" element={<Trends />} />
+        <Route path="/my-sessions" element={<MySessions />} />
+        <Route path="/login" element={<Login />} />  
+        <Route path="/register" element={<Signup />} /> 
       </Routes>
       <Footer/>
     </Router>
