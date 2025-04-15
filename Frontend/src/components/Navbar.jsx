@@ -28,7 +28,7 @@ function Navbar() {
             <Link to="/book" className="hover:underline">Book</Link>
           )}
 
-          <Link to="/feedback" className="hover:underline">Feedback</Link>
+          <Link to="/feedback" className="hover:underline">AI Mentor</Link>
           <Link to="/trends" className="hover:underline">Trends</Link>
           {token && <Link to="/my-sessions" className="hover:underline">My Sessions</Link>}
 

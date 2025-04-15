@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const mentorRoutes = require("./routes/mentorRoutes");
 const sessionRoutes = require("./routes/sessionRoutes");
 const authRoutes = require("./routes/authRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ connectDB();
 app.use("/api/mentors", mentorRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.get("/", (req, res) => res.send("API is running"));
 
