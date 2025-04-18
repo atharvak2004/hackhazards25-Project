@@ -21,17 +21,17 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     try {
       const res = await axios.post("http://localhost:5000/api/auth/register", formData);
-  
+
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
-  
+
       navigate("/my-sessions");
     } catch (err) {
       const message = err.response?.data?.message;
-  
+
       if (message === "Email already registered.") {
         alert("Email is already registered. Redirecting to login...");
         navigate("/login");
@@ -42,8 +42,9 @@ function Signup() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 mt-10 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+    <div className="min-h-screen pt-16 bg-gradient-to-b from-blue-100 to-white">
+    <div className="max-w-md mx-auto p-6 mt-10 bg-blue-100 rounded border border-black">
+      <h2 className="text-xl font-bold mb-4 text-center">Sign Up</h2>
 
       {error && (
         <div className="mb-4 p-2 bg-red-100 text-red-700 border border-red-300 rounded">
@@ -51,7 +52,7 @@ function Signup() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 ">
         <input
           type="text"
           name="name"
@@ -93,12 +94,14 @@ function Signup() {
           <option value="mentor">I am a Mentor</option>
         </select>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-        >
-          Sign Up
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="w-7/12 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          >
+            Sign Up
+          </button>
+        </div>
       </form>
 
       <p className="text-center text-sm mt-4">
@@ -107,6 +110,7 @@ function Signup() {
           Login
         </Link>
       </p>
+    </div>
     </div>
   );
 }

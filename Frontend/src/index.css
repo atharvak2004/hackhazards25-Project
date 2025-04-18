@@ -1,3 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monoton&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+  
+  .prata-regular {
+    font-family: "Prata", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  a.active hr {
+    display: block;
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  @media (max-width:640px) {
+    a.active {
+      background-color: black;
+      color: white;
+    }
+  }
+  /* .navbar {
+    position: relative; 
+    z-index: 10;
+    background: transparent;  
+  } */
+  .audiowide-regular {
+    font-family: "Audiowide", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  .fredericka-the-great-regular {
+    font-family: "Fredericka the Great", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  .monoton-regular {
+    font-family: "Monoton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  

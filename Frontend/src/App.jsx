@@ -30,9 +30,10 @@ function App() {
         <Route path="/trends" element={<Trends />} />
         <Route path="/my-sessions" element={<MySessions />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Signup />} />
+        
         <Route path="/mentor-profile" element={<MyMentorProfile />} />
         <Route path="/mentor/edit" element={<EditMentorProfile />} />
+        <Route path="/register" element={<Signup />} />
       </Routes>
       <Footer />
     </>

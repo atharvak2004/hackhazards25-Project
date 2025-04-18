@@ -27,30 +27,36 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-router.get("/me", protect, async (req, res)=>{
+// Get current mentor's profile
+router.get("/me", protect, (req, res) => {
   if (req.user.role !== "mentor") {
     return res.status(403).json({ message: "Only mentors can view this route." });
   }
 
-  try {
-    const mentor = await Mentor.findOne({ userId: req.user._id });
-    if (!mentor) {
-      return res.status(404).json({ message: "Mentor profile not found." });
-    }
-    res.json(mentor);
-  } catch (err) {
-    console.error("Error fetching mentor profile:", err);
-    res.status(500).json({ message: "Server error" });
-  }
+  Mentor.findOne({ userId: req.user._id })
+    .then(mentor => {
+      if (!mentor) {
+        return res.status(404).json({ message: "Mentor profile not found." });
+      }
+      res.json(mentor);
+    })
+    .catch(err => {
+      console.error("Error fetching mentor profile:", err);
+      res.status(500).json({ message: "Server error" });
+    });
 });
 
 //Add a mentor
 //POST /api/mentors
-router.post("/", async (req, res) => {
+router.post("/", protect, async (req, res) => {
+  if (req.user.role !== "mentor") {
+    return res.status(403).json({ message: "Only mentors can create mentor profiles." });
+  }
+
   const { name, expertise, bio, available, profileImage } = req.body;
   try {
     const mentor = new Mentor({
+      userId: req.user._id,
       name,
       expertise,
       bio,
@@ -62,6 +68,7 @@ router.post("/", async (req, res) => {
     res.status(201).json(savedMentor);
 
   } catch (err) {
+    console.error("Mentor creation error:", err);
     res.status(400).json({ message: err.message });
   }
 });

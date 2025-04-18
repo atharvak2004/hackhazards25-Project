@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
       }
     }
 
-    const token = jwt.sign({ userId: savedUser._id }, "your_jwt_secret", {
+    const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 

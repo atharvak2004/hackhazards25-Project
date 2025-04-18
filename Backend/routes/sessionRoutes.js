@@ -1,33 +1,36 @@
 const express = require("express");
 const router = express.Router();
 const Session = require("../models/Session");
+const User = require("../models/User"); 
 const protect = require("../middleware/authMiddleware");
 
 
-// GET all booked sessions
+// GET all booked sessions (with optional filters)
 router.get("/", async (req, res) => {
-    try {
-      const sessions = await Session.find().sort({ createdAt: -1 }); 
-      res.json(sessions);
-    } catch (error) {
-      console.error("Error fetching sessions:", error);
-      res.status(500).json({ message: "Server error while fetching sessions" });
-    }
-  });
+  try {
+    const { mentorId, userId } = req.query;
+    const filter = {};
+    if (mentorId) filter.mentorId = mentorId;
+    if (userId) filter.userId = userId;
 
-//Get sessions for logged-in user
-//GET /api/sessions/mine
-//Private
+    const sessions = await Session.find(filter).sort({ createdAt: -1 });
+    res.json(sessions);
+  } catch (error) {
+    console.error("Error fetching sessions:", error);
+    res.status(500).json({ message: "Server error while fetching sessions" });
+  }
+});
+
+// GET sessions for logged-in user
 router.get("/mine", protect, async (req, res) => {
   try {
     const user = req.user;
-
     let sessions;
 
     if (user.role === "student") {
       sessions = await Session.find({ userId: user._id }).sort({ date: 1, time: 1 });
     } else if (user.role === "mentor") {
-      sessions = await Session.find({ mentorName: user.name }).sort({ date: 1, time: 1 });
+      sessions = await Session.find({ mentorId: user._id }).sort({ date: 1, time: 1 });
     } else {
       return res.status(403).json({ message: "Unknown role" });
     }
@@ -39,28 +42,36 @@ router.get("/mine", protect, async (req, res) => {
   }
 });
 
-
-//Book a new session
-//POST /api/sessions
-//Public
+// Book a new session
 router.post("/", protect, async (req, res) => {
-  // Only students can book
   if (req.user.role !== "student") {
     return res.status(403).json({ message: "Only students can book sessions." });
   }
 
-  const { mentorName, date, time, message } = req.body;
+  const { mentorId, date, time, message } = req.body;
 
-  // Basic field validation
-  if (!mentorName || !date || !time) {
+  if (!mentorId || !date || !time) {
     return res.status(400).json({ message: "Missing required fields." });
   }
 
   try {
-    //Prevent duplicate bookings (same student, mentor, date, and time)
+    // Validate mentor exists and is actually a mentor
+    const mentor = await User.findById(mentorId);
+    if (!mentor || mentor.role !== "mentor") {
+      return res.status(400).json({ message: "Invalid mentor." });
+    }
+
+    // Prevent booking in the past
+    const now = new Date();
+    const sessionDateTime = new Date(`${date}T${time}`);
+    if (sessionDateTime < now) {
+      return res.status(400).json({ message: "Cannot book a session in the past." });
+    }
+
+    // Check for existing booking
     const existingSession = await Session.findOne({
       userId: req.user._id,
-      mentorName,
+      mentorId,
       date,
       time,
     });
@@ -71,11 +82,11 @@ router.post("/", protect, async (req, res) => {
       });
     }
 
-    // Save new session
     const session = new Session({
       userId: req.user._id,
       userName: req.user.name,
-      mentorName,
+      mentorId,
+      mentorName: mentor.name,
       date,
       time,
       message,
@@ -88,6 +99,5 @@ router.post("/", protect, async (req, res) => {
     res.status(500).json({ message: "Booking failed" });
   }
 });
-
 
 module.exports = router;

@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 function MentorCard({ name, expertise, bio, available, profileImage }) {
     return (
-        <div className="bg-white shadow-md rounded p-4 flex flex-col items-center text-center">
+        <div className="bg-white shadow-md rounded p-5 flex flex-col items-center text-center">
             <img
                 src={profileImage}
                 alt={name}
-                className="w-24 h-24 rounded-full mb-3"
+                className="w-32 h-32 rounded-full mb-3"
             />
-            <h3 className="text-lg font-bold">{name}</h3>
+            <h3 className="text-2xl font-bold">{name}</h3>
             <p className="text-sm text-gray-600">{bio}</p>
             <div className="mt-2 text-xs text-blue-600">
                 {expertise.join(", ")}

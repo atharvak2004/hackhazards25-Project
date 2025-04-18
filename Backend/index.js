@@ -8,6 +8,8 @@ const mentorRoutes = require("./routes/mentorRoutes");
 const sessionRoutes = require("./routes/sessionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const aiRoutes = require("./routes/aiRoutes");
+// const trendsRoutes = require("./routes/trendsRoutes");
+
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ app.use("/api/mentors", mentorRoutes);
 app.use("/api/sessions", sessionRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
+// app.use("/api/trends", trendsRoutes);
+
 
 app.get("/", (req, res) => res.send("API is running"));
 

@@ -1,12 +1,27 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import Title from '../components/Title'
+import ConnectWithUs from '../components/ConnectWithUs'
+import ViewMentors from "../components/ViewMentors";
+import BookASession from "../components/BookASession";
+import Hero from "../components/Hero";
+import WhyChooseUs from "../components/WhyChooseUs";
+import AsktheAI from "../components/AsktheAI";
+import HeroSpline from "../components/HeroSpline";
 
 function Home() {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className="p-6 text-center">
-      <h1 className="text-3xl font-bold">Live AI Mentor + Skill Marketplace</h1>
-      <p className="text-lg mt-2">Find mentors. Learn skills. Get AI feedback.</p>
-    </div>
-  )
+    <>
+      <HeroSpline />
+      <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] flex flex-col justify-center items-center text-center p-6">
+        <WhyChooseUs />
+        <ViewMentors />
+        <AsktheAI />  
+        <ConnectWithUs />
+      </div>
+    </>
+  );
 }
 
 export default Home;
