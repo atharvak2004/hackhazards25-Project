@@ -10,7 +10,7 @@ const sessionRoutes = require("./routes/sessionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const trendingRoutes = require('./routes/trendingRoutes');
-
+const studentRoutes = require('./routes/studentRoutes');
 
 dotenv.config();
 
@@ -25,6 +25,7 @@ app.use("/api/sessions", sessionRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use('/api/trends', trendingRoutes);
+app.use('/api/students', studentRoutes);
 // app.get('/trends', (req, res) => {
 //     // mock data just for testing
 //     res.json([

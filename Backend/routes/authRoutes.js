@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Mentor = require("../models/Mentor");
+const Student = require("../models/Student"); // ✅ added
 
 // REGISTER
 router.post("/register", async (req, res) => {
@@ -30,7 +31,7 @@ router.post("/register", async (req, res) => {
 
     const savedUser = await user.save();
 
-    // Auto-create mentor if user is a mentor
+    // ✅ Auto-create mentor if user is a mentor
     if (savedUser.role === "mentor") {
       const mentorExists = await Mentor.findOne({ userId: savedUser._id });
 
@@ -51,6 +52,20 @@ router.post("/register", async (req, res) => {
             throw mentorErr;
           }
         }
+      }
+    }
+
+    // ✅ Auto-create student if user is a student
+    if (savedUser.role === "student") {
+      try {
+        await Student.create({
+          user: savedUser._id,
+          bio: "",
+          skills: [],
+          profilePicture: "https://via.placeholder.com/150",
+        });
+      } catch (studentErr) {
+        console.error("Failed to create student profile:", studentErr);
       }
     }
 

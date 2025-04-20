@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-transpernet backdrop-blur-none p-4 ">
       <div className="flex items-center justify-between py-5 font-medium">
-      <Link to="/" className='text-xl font-bold pl-6 text-white'>AI Mentor</Link>
+        <Link to="/" className='text-xl font-bold pl-6 text-white'>AI Mentor</Link>
 
         <div className="hidden sm:flex gap-5 text-sm text-gray-700">
           <Link to="/" className='flex flex-col items-center gap-1'>
@@ -54,13 +54,20 @@ function Navbar() {
             </Link>
           }
 
-          {/*Only show for mentors */}
           {user?.role === "mentor" && (
             <Link to="/mentor-profile" className='flex flex-col items-center gap-1'>
-              <p className="text-gray-400 hover:underline hover:text-white">MY PROFILE</p>
+              <p className="text-gray-400 hover:underline hover:text-white">MENTOR PROFILE</p>
               <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
             </Link>
           )}
+
+          {user?.role === "student" && (
+            <Link to="/student-profile" className='flex flex-col items-center gap-1'>
+              <p className="text-gray-400 hover:underline hover:text-white">STUDENT PROFILE</p>
+              <hr className='w-2/4 border-none h-[1.5px] bg-gray-700 hidden' />
+            </Link>
+          )}
+
         </div>
 
         <div className="flex flex-row space-x-3 p-3">
@@ -78,10 +85,10 @@ function Navbar() {
             <>
               <Link to="/login" className="hover:underline">Login</Link>
               <Link to="/register" className="hover:underline">Signup</Link>
-              
+
             </>
           )}
-          
+
           <img onClick={() => setVisble(true)} className='w-5 cursor-pointer sm:hidden' src="/assets/menu.png" alt="menu" />
         </div>
         <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : 'w-0'}`} >

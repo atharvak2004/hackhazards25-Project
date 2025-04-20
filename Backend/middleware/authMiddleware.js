@@ -1,6 +1,9 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Mentor = require("../models/Mentor");
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 
 const protect = async (req, res, next) => {
@@ -12,7 +15,7 @@ const protect = async (req, res, next) => {
 
     try {
       // 2. Verify the token
-      const decoded = jwt.verify(token, "your_jwt_secret");
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
       // 3. Get user from database (excluding password)
       const user = await User.findById(decoded.userId).select("-password");

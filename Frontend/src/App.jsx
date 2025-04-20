@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import MyMentorProfile from "./pages/MyMentorProfile";
 import EditMentorProfile from "./pages/EditMentorProfile";
+import MyStudentProfile from "./pages/MyStudentProfile";
+import EditStudentProfile from "./pages/EditStudentProfile";
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -30,10 +32,12 @@ function App() {
         <Route path="/trends" element={<Trends />} />
         <Route path="/my-sessions" element={<MySessions />} />
         <Route path="/login" element={<Login />} />
-        
         <Route path="/mentor-profile" element={<MyMentorProfile />} />
         <Route path="/mentor/edit" element={<EditMentorProfile />} />
+        <Route path="/student-profile" element={<MyStudentProfile />} />
+        <Route path="/student/edit" element={<EditStudentProfile />} />
         <Route path="/register" element={<Signup />} />
+        
       </Routes>
       <Footer />
     </>
