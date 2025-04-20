@@ -1,62 +1,59 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
+} from 'recharts';
 
-function SkillTrends() {
-  const [skillCounts, setSkillCounts] = useState({});
+const SkillTrends = () => {
+  const [trends, setTrends] = useState([]);
 
   useEffect(() => {
     const fetchTrends = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/trends");
-        setSkillCounts(res.data);
-      } catch (err) {
-        console.error("Error fetching trends:", err);
+        const res = await fetch('http://localhost:5000/api/trends');
+        const data = await res.json();
+        setTrends(data);
+      } catch (error) {
+        console.error('Failed to load trends:', error);
       }
     };
 
     fetchTrends();
   }, []);
 
-  const chartData = Object.entries(skillCounts).map(([skill, count]) => ({
-    skill,
-    count,
-  }));
-
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4 text-center">📊 Skill Trends</h2>
+    <div className="text-center p-6 max-w-6xl mx-auto">
+      
+      <p className="text-white mb-6 text-lg">Trending Skills</p>
 
-      {/* Tag list */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
-        {chartData.map((item) => (
-          <span
-            key={item.skill}
-            className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium"
+      <div className="mt-12 w-[900px] h-[500px] bg-transperent rounded-xl p-4 shadow-lg mx-auto">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={trends}
+            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           >
-            {item.skill} ({item.count})
-          </span>
-        ))}
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              angle={-45}
+              textAnchor="end"
+              interval={0}
+              height={100}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="count" fill="#7c3aed" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
-
-      {/* Bar chart */}
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={chartData}>
-          <XAxis dataKey="skill" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="count" fill="#3b82f6" />
-        </BarChart>
-      </ResponsiveContainer>
     </div>
   );
-}
+};
 
 export default SkillTrends;
