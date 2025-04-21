@@ -8,6 +8,8 @@ import Hero from "../components/Hero";
 import WhyChooseUs from "../components/WhyChooseUs";
 import AsktheAI from "../components/AsktheAI";
 import HeroSpline from "../components/HeroSpline";
+import JoinTheCirlce from "../components/JoinTheCirlce";
+import ViewTrensAndNews from "../components/ViewTrensAndNews";
 
 function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -18,8 +20,11 @@ function Home() {
         <WhyChooseUs />
         <ViewMentors />
         <AsktheAI />  
+        <ViewTrensAndNews />
+        <JoinTheCirlce />
         <ConnectWithUs />
-      </div>
+   
+    </div>
     </>
   );
 }

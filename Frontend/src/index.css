@@ -48,4 +48,11 @@
     font-weight: 400;
     font-style: normal;
   }
-  
+
+.navbar {
+  z-index: 60; 
+}
+
+.mobile-menu {
+  z-index: 100;
+}

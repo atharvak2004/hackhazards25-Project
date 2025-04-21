@@ -11,6 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const trendingRoutes = require('./routes/trendingRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const circleRoutes = require("./routes/circleRoutes");
 
 dotenv.config();
 
@@ -26,14 +27,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use('/api/trends', trendingRoutes);
 app.use('/api/students', studentRoutes);
-// app.get('/trends', (req, res) => {
-//     // mock data just for testing
-//     res.json([
-//       { name: 'JavaScript', count: 123 },
-//       { name: 'Python', count: 98 },
-//       { name: 'Rust', count: 76 },
-//     ]);
-//   });
+// app.use("/api/circles", circleRoutes);
+app.use("/api/circles", require("./routes/circleRoutes"));
+
 
 app.get("/", (req, res) => res.send("API is running"));
 

@@ -8,6 +8,7 @@ function MySessions() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -51,9 +52,15 @@ function MySessions() {
               key={session._id}
               className="border rounded-xl p-5 shadow bg-blue-100 space-y-3"
             >
-              <div className="text-3xl font-bold text-gray-800 mb-2">
-                {session.mentorName}
+              <div className="text-3xl font-bold text-gray-800 mb-2"> 
+                {(user?.role === "mentor" && session.userName) ||
+                  (user?.role === "student" && session.mentorName) ||
+                  "Unknown Participant"}
+
+
+
               </div>
+
               <div className="text-md text-gray-600 mb-1">
                 <FontAwesomeIcon icon={faCalendar} className="mr-2" />
                 {session.date} | &nbsp;

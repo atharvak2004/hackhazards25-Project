@@ -23,11 +23,9 @@ function Login() {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
 
-      // Store token + user in localStorage
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // Redirect to /my-sessions
       navigate("/my-sessions");
     } catch (err) {
       console.error("Login error:", err);
@@ -36,9 +34,10 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-gradient-to-b from-blue-100 to-white ">
-      <div className="max-w-md mx-auto p-6 mt-10 bg-blue-100 rounded border border-black">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#029EDC,_#090979,_#020024)] flex flex-col justify-center items-center">
+
+      <div className="max-w-md mx-auto p-8 mt-4  rounded-2xl border border-black">
+        <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white ">LogIn...</h2>
 
         {error && (
           <div className="mb-4 p-2 bg-red-100 text-red-700 border border-red-300 rounded">
@@ -50,17 +49,17 @@ function Login() {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email..."
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border  rounded"
             required
           />
 
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Password..."
             value={formData.password}
             onChange={handleChange}
             className="w-full p-2 border rounded"
@@ -69,16 +68,16 @@ function Login() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-7/12 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+              className="w-7/12 bg-blue-700 text-white py-2 rounded hover:bg-blue-800"
             >
               Login
             </button>
           </div>
         </form>
 
-        <p className="text-center text-sm mt-4">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
+        <p className="text-center text-md mt-4 text-white">
+          Don't have an account? {" "}
+          <Link to="/register" className="text-slate-300 hover:underline text-lg">
             Signup
           </Link>
         </p>

@@ -4,7 +4,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Mentor = require("../models/Mentor");
-const Student = require("../models/Student"); // ✅ added
+const Student = require("../models/Student"); 
+const Circle = require("../models/Circle");
+
 
 // REGISTER
 router.post("/register", async (req, res) => {
@@ -31,42 +33,40 @@ router.post("/register", async (req, res) => {
 
     const savedUser = await user.save();
 
-    // ✅ Auto-create mentor if user is a mentor
+    // Auto-create mentor
     if (savedUser.role === "mentor") {
       const mentorExists = await Mentor.findOne({ userId: savedUser._id });
-
       if (!mentorExists) {
-        try {
-          await Mentor.create({
-            userId: savedUser._id,
-            name: savedUser.name,
-            expertise: ["General"],
-            bio: "New mentor – bio coming soon.",
-            available: true,
-            profileImage: "https://via.placeholder.com/150",
-          });
-        } catch (mentorErr) {
-          if (mentorErr.code === 11000) {
-            console.warn("Mentor already exists. Skipping duplicate.");
-          } else {
-            throw mentorErr;
-          }
-        }
+        await Mentor.create({
+          userId: savedUser._id,
+          name: savedUser.name,
+          expertise: ["General"],
+          bio: "New mentor – bio coming soon.",
+          available: true,
+          profileImage: "https://via.placeholder.com/150",
+        });
       }
     }
 
-    // ✅ Auto-create student if user is a student
+    // Auto-create student
     if (savedUser.role === "student") {
-      try {
-        await Student.create({
-          user: savedUser._id,
-          bio: "",
-          skills: [],
-          profilePicture: "https://via.placeholder.com/150",
-        });
-      } catch (studentErr) {
-        console.error("Failed to create student profile:", studentErr);
+      await Student.create({
+        user: savedUser._id,
+        bio: "",
+        skills: [],
+        profilePicture: "https://via.placeholder.com/150",
+      });
+    }
+
+    // ✅ Auto-join public circle
+    try {
+      const publicCircle = await Circle.findOne({ isPublic: true });
+      if (publicCircle && !publicCircle.members.includes(savedUser._id)) {
+        publicCircle.members.push(savedUser._id);
+        await publicCircle.save();
       }
+    } catch (err) {
+      console.error("Failed to auto-join public circle:", err);
     }
 
     const token = jwt.sign({ userId: savedUser._id }, process.env.JWT_SECRET, {
@@ -87,6 +87,7 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error during registration" });
   }
 });
+
 
 // LOGIN
 router.post("/login", async (req, res) => {

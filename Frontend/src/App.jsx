@@ -14,6 +14,11 @@ import MyMentorProfile from "./pages/MyMentorProfile";
 import EditMentorProfile from "./pages/EditMentorProfile";
 import MyStudentProfile from "./pages/MyStudentProfile";
 import EditStudentProfile from "./pages/EditStudentProfile";
+import Circles from "./pages/Circles";
+
+
+
+
 
 function App() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -37,7 +42,9 @@ function App() {
         <Route path="/student-profile" element={<MyStudentProfile />} />
         <Route path="/student/edit" element={<EditStudentProfile />} />
         <Route path="/register" element={<Signup />} />
-        
+        <Route path="/circles" element={<Circles />} />
+
+
       </Routes>
       <Footer />
     </>
