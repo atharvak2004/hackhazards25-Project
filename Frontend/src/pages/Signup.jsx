@@ -42,9 +42,9 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#1a073e,_#0c081c)] flex flex-col justify-center items-center">
-    <div className="max-w-md mx-auto p-6 mt-10 bg-transperent rounded border border-white">
-      <h2 className="text-xl font-bold mb-4 text-center text-white">--Sign Up--</h2>
+    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center">
+    <div className="max-w-md mx-auto p-8 mt-4  rounded-2xl border border-black">
+      <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white ">SignUp...</h2>
 
       {error && (
         <div className="mb-4 p-2 bg-red-100 text-red-700 border border-red-300 rounded">
@@ -104,9 +104,9 @@ function Signup() {
         </div>
       </form>
 
-      <p className="text-center text-sm mt-4 text-white">
+      <p className="text-center text-md mt-4 text-white">
         Already have an account?{" "}
-        <Link to="/login" className="text-blue-600 hover:underline">
+        <Link to="/login" className="text-slate-300 hover:underline text-lg">
           Login
         </Link>
       </p>

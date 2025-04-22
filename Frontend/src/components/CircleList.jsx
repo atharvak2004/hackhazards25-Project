@@ -16,7 +16,7 @@ function CircleList({ circles, onCreateClick, onOpenChat }) {
 
       <ul className="space-y-4">
         {circles.map((circle) => (
-          <li key={circle._id} className="bg-white text-black p-4 rounded shadow">
+          <li key={circle._id} className="bg-blue-100 text-black p-4 rounded shadow">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-semibold">{circle.name}</h3>

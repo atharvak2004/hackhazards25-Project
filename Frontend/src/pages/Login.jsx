@@ -34,7 +34,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#029EDC,_#090979,_#020024)] flex flex-col justify-center items-center">
+    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center">
 
       <div className="max-w-md mx-auto p-8 mt-4  rounded-2xl border border-black">
         <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white ">LogIn...</h2>

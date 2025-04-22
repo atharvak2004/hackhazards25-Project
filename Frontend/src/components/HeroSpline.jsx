@@ -17,14 +17,14 @@ function HeroSpline() {
             <h2 className="monoton-regular text-white text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold drop-shadow-lg">
               From
             </h2>
-            <h2 className="monoton-regular font-bold drop-shadow-lg text-4xl md:text-6xl lg:text-7xl xl:text-8xl">
+            <h2 className="monoton-regular font-bold drop-shadow-lg text-4xl md:text-6xl lg:text-7xl xl:text-8xl ">
               <span className="text-blue-600">C</span>
-              <span className="text-green-500">u</span>
+              <span className="text-purple-400">u</span>
               <span className="text-yellow-500">r</span>
               <span className="text-red-500">i</span>
               <span className="text-orange-400">o</span>
               <span className="text-pink-500">u</span>
-              <span className="text-purple-400">s</span>
+              <span className="text-green-500">s</span>
               <span className="text-orange-500">.</span>
               <span className="text-white">.</span>
               <span className="text-orange-500">.</span>

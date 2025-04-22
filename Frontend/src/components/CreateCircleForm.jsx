@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function CreateCircleForm() {
+function CreateCircleForm({ onCreated }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ function CreateCircleForm() {
         }
       );
       setMessage("Circle created ✅");
+      onCreated();
       setTimeout(() => navigate("/circles"), 1000);
     } catch (err) {
       setMessage("Failed to create circle.");
@@ -26,8 +27,9 @@ function CreateCircleForm() {
   };
 
   return (
+    <div>
     <div className="max-w-md mx-auto mt-24 p-6 bg-blue-100 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Create a Circle</h2>
+      <h2 className="text-3xl font-bold mb-4">Create a Circle...</h2>
       {message && <p className="mb-3 text-blue-600">{message}</p>}
       <form onSubmit={handleSubmit}>
         <label className="block mb-2 font-medium">Circle Name</label>
@@ -40,6 +42,7 @@ function CreateCircleForm() {
           Create
         </button>
       </form>
+    </div>
     </div>
   );
 }

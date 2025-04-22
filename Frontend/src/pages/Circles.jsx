@@ -11,7 +11,7 @@ import Title from "../components/Title";
 
 function Circles() {
   const [view, setView] = useState("list");
-  const [activeCircle,  setActiveCircle] = useState(null);
+  const [activeCircle, setActiveCircle] = useState(null);
   const [circles, setCircles] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -33,7 +33,7 @@ function Circles() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] p-6 ">
       <div className="mt-32 flex flex-col justify-center items-center text-center">
         <Title text1={"Circles"} />
       </div>
@@ -54,11 +54,10 @@ function Circles() {
 
       {view === "create" && (
         <CreateCircleForm
-          onBack={() => setView("list")}
-          onCreated={(circle) => {
-            fetchCircles();
-            setActiveCircle(circle);
-            setView("chat");
+          onCreated={() => {
+            fetchCircles();       
+            setActiveCircle(null);
+            setView("list");      
           }}
         />
       )}

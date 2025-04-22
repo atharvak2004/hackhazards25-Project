@@ -27,24 +27,22 @@ const SkillTrends = () => {
   }, []);
 
   return (
-    <div className="text-center p-6 max-w-6xl mx-auto">
-      
-      <p className="text-white mb-6 text-lg">Trending Skills</p>
+    <div className="w-full max-w-4xl mx-auto px-4">
+      <p className="text-white mb-6 text-lg sm:text-xl font-semibold text-center">
+        Trending Skills
+      </p>
 
-      <div className="mt-12 w-[900px] h-[500px] bg-transperent rounded-xl p-4 shadow-lg mx-auto">
+      <div className="h-[300px] sm:h-[400px] md:h-[500px] bg-transparent rounded-xl shadow-lg">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={trends}
-            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-          >
+          <BarChart data={trends} margin={{ top: 10, right: 20, left: 0, bottom: 40 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="name"
               angle={-45}
               textAnchor="end"
               interval={0}
-              height={100}
-              tick={{ fontSize: 12 }}
+              height={70}
+              tick={{ fontSize: 10 }}
             />
             <YAxis />
             <Tooltip />

@@ -29,9 +29,9 @@ const PublicCircles = ({ onOpen }) => {
 
   return (
     <div className="mt-8 text-white">
-      <h2 className="text-xl font-semibold mb-2">🌐 Public Circle</h2>
+      <h2 className="text-xl font-semibold mb-2">Community Circle</h2>
       <div className="bg-white text-black p-4 rounded shadow">
-        <h3 className="text-xl font-bold">🌍 {circle.name}</h3>
+        <h3 className="text-xl font-bold"> {circle.name}</h3>
         <p className="text-sm text-gray-600 mb-3">
           Members: {circle.members?.length || 0}
         </p>

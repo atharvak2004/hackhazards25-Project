@@ -57,56 +57,51 @@ function EditStudentProfile() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Edit Student Profile</h2>
-      {message && <p className="mb-4 text-blue-600">{message}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Name</label>
-          <input
-            className="w-full border rounded p-2"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Bio</label>
-          <textarea
-            className="w-full border rounded p-2"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Skills (comma-separated)</label>
-          <input
-            className="w-full border rounded p-2"
-            value={skills}
-            onChange={(e) => setSkills(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Profile Picture URL</label>
-          <input
-            className="w-full border rounded p-2"
-            value={profilePicture}
-            onChange={(e) => setProfilePicture(e.target.value)}
-          />
-        </div>
-        {profilePicture && (
-          <img
-            src={profilePicture}
-            alt="Preview"
-            className="w-24 h-24 object-cover rounded-full mt-2"
-          />
-        )}
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Save Changes
-        </button>
-      </form>
+    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center">
+      <div className="max-w-md mx-auto p-8 mt-4 lg:w-2/6 rounded-2xl border border-black">
+        <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white">Edit Student Profile...</h2>
+        {message && <p className="mb-4 text-blue-600">{message}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Name...</label>
+            <input
+              className="w-full border rounded p-2"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Bio...</label>
+            <textarea
+              className="w-full border rounded p-2"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Skills(comma-separated)...</label>
+            <input
+              className="w-full border rounded p-2"
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-300">Profile Picture URL...</label>
+            <input
+              className="w-full border rounded p-2"
+              value={profilePicture}
+              onChange={(e) => setProfilePicture(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -71,12 +71,13 @@ function EditMentorProfile() {
   if (!mentor) return <p className="p-6">Loading...</p>;
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Edit Mentor Profile</h2>
+    <div className="min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center">
+    <div className="max-w-md mx-auto p-8 mt-4 lg:w-2/6 rounded-2xl border border-black">
+      <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white ">Edit Mentor Profile...</h2>
       {message && <p className="mb-4 text-blue-600">{message}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Bio</label>
+          <label className="block text-sm font-medium text-gray-300">Bio...</label>
           <textarea
             className="w-full border rounded p-2"
             value={bio}
@@ -84,7 +85,7 @@ function EditMentorProfile() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Expertise (comma-separated)</label>
+          <label className="block text-sm font-medium text-gray-300">Expertise(comma-separated)...</label>
           <input
             className="w-full border rounded p-2"
             value={expertise}
@@ -92,7 +93,7 @@ function EditMentorProfile() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Profile Image URL</label>
+          <label className="block text-sm font-medium text-gray-300">Profile Image URL...</label>
           <input
             className="w-full border rounded p-2"
             value={profileImage}
@@ -102,10 +103,11 @@ function EditMentorProfile() {
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"
+            className="w-4"
             checked={available}
             onChange={(e) => setAvailable(e.target.checked)}
           />
-          <label>Available for sessions</label>
+          <label className="text-gray-300">Available for sessions</label>
         </div>
         <button
           type="submit"
@@ -114,6 +116,7 @@ function EditMentorProfile() {
           Save Changes
         </button>
       </form>
+    </div>
     </div>
   );
 }

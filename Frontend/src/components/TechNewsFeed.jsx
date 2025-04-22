@@ -31,10 +31,11 @@ function Trends() {
   }, []);
 
   useEffect(() => {
+    // Connect to WebSocket for real-time news
     const socket = io("http://localhost:5000");
 
     socket.on("techNews", (data) => {
-      setNews(data.slice(0, 10)); 
+      setNews(data.slice(0, 5)); // display top 5
     });
 
     return () => {
@@ -50,8 +51,8 @@ function Trends() {
 
       {/* Skill Trends Chart */}
       <div className="text-center p-6 max-w-6xl mx-auto w-full">
-        <p className="text-white mb-6 text-lg">Trending Skills</p>
-        <div className="w-full h-[400px] bg-transparent rounded-xl p-4 mx-auto">
+        <p className="text-white mb-6 text-lg sm:text-xl">Trending Skills</p>
+        <div className="w-full h-[400px] bg-transparent rounded-xl p-4 shadow-lg mx-auto">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={trends} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -72,22 +73,19 @@ function Trends() {
       </div>
 
       {/* Tech News Section */}
-      <div className="max-w-auto mx-auto mt-10 bg-transpertent text-black p-6 rounded-xl mb-20">
-        <div className=" mb-16 text-center">
-        <Title text1={"Latest"} text2={"Tech News"} />
-        </div>
-        <h2 className="text-2xl font-bold"> </h2>
+      <div className="max-w-4xl mx-auto mt-10 bg-white text-black p-6 rounded-xl shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center sm:text-3xl">Latest Tech News</h2>
         {news.length === 0 ? (
           <p className="text-center text-gray-500">Loading latest tech news...</p>
         ) : (
-          <ul className="space-y-4 lg:pl-40 ">
+          <ul className="space-y-4">
             {news.map((article, index) => (
-              <li key={index} className=" p-2 rounded-lg transition-all">
+              <li key={index} className="hover:bg-gray-100 p-2 rounded-lg transition-all">
                 <a
                   href={article.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white text-xl hover:underline"
+                  className="text-indigo-700 hover:underline"
                 >
                   {article.title}
                 </a>

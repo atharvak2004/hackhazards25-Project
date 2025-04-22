@@ -42,7 +42,6 @@ function BookSession() {
       });
       console.log("Booking successful:", res.data);
       setSuccess(true);
-      // Optionally reset form data:
       setFormData({ mentorName: '', date: '', time: '', message: '' });
       setTimeout(() => navigate("/my-sessions"), 3000);
     } catch (err) {
@@ -52,8 +51,9 @@ function BookSession() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 mt-10 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">Book a Session</h2>
+    <div className='min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center'>
+    <div className="max-w-md mx-auto p-8 mt-4  rounded-2xl border border-black">
+      <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white ">Book a Session...</h2>
       {error && (
         <div className="mb-4 p-2 bg-red-100 text-red-700 rounded border border-red-300">
           {error}
@@ -68,7 +68,7 @@ function BookSession() {
         <input
           type="text"
           name="mentorName"
-          placeholder="Mentor Name"
+          placeholder="Mentor's Name . . ."
           value={formData.mentorName}
           onChange={handleChange}
           required
@@ -92,18 +92,21 @@ function BookSession() {
         />
         <textarea
           name="message"
-          placeholder="Message (optional)"
+          placeholder="Message(optional). . ."
           value={formData.message}
           onChange={handleChange}
           className="w-full p-2 border rounded h-24"
         />
+        <div className='flex justify-center'>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-7/12 bg-blue-700 text-white py-2 rounded hover:bg-blue-800"
         >
           Book Session
         </button>
+        </div>
       </form>
+    </div>
     </div>
   );
 }

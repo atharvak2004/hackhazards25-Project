@@ -5,8 +5,8 @@ function Footer() {
         <>
             <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14  text-sm w-full bg-white border-t z-50 p-10'>
                 <div>
-                    <p className='text-xl font-medium mb-5'>AI Mentor</p>
-                    <p className='w-full md:w-2/3 text-gray-600'>AI Mentor is a real-time mentorship and learning platform connecting students with expert mentors. It features session booking, skill trend tracking, and community-based peer Circles. With public and private chat spaces, role-based access, and profile management, it fosters collaborative growth, skill discovery, and meaningful mentor-student interactions.</p>
+                    <p className='text-xl font-medium mb-5'>Skillora.io</p>
+                    <p className='w-full md:w-2/3 text-gray-600'>Skillora.io is a real-time mentorship and learning platform connecting students with expert mentors. It features session booking, skill trend tracking, and community-based peer Circles. With public and private chat spaces, role-based access, and profile management, it fosters collaborative growth, skill discovery, and meaningful mentor-student interactions.</p>
                 </div>
                 <div>
                     <p className='text-xl font-medium mb-5'>PROJECT</p>
@@ -32,7 +32,7 @@ function Footer() {
             </div>
             <div>
                 <hr />
-                <p className='py-5 text-sm text-center bottom-0'>Copyright 2025@  - All Right Reserved.</p>
+                <p className='py-5 text-sm text-center bottom-0'>Copyright 2025 @ Skillora.io - All Right Reserved.</p>
             </div>
         </>
     );
