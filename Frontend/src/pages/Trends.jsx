@@ -11,6 +11,8 @@ import {
 } from "recharts";
 import Title from "../components/Title";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Add API base URL here
+
 function Trends() {
   const [trends, setTrends] = useState([]);
   const [news, setNews] = useState([]);
@@ -19,7 +21,7 @@ function Trends() {
     // Fetch trending skills
     const fetchTrends = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/trends");
+        const res = await fetch(`${API_BASE_URL}/api/trends`); // Updated API URL
         const data = await res.json();
         setTrends(data);
       } catch (error) {
@@ -31,7 +33,7 @@ function Trends() {
   }, []);
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io(API_BASE_URL); // Updated socket URL
 
     socket.on("techNews", (data) => {
       setNews(data.slice(0, 10)); 
@@ -74,7 +76,7 @@ function Trends() {
       {/* Tech News Section */}
       <div className="max-w-auto mx-auto mt-10 bg-transpertent text-black p-6 rounded-xl mb-20">
         <div className=" mb-16 text-center">
-        <Title text1={"Latest"} text2={"Tech News"} />
+          <Title text1={"Latest"} text2={"Tech News"} />
         </div>
         <h2 className="text-2xl font-bold"> </h2>
         {news.length === 0 ? (

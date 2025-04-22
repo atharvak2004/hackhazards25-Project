@@ -15,7 +15,7 @@ const SkillTrends = () => {
   useEffect(() => {
     const fetchTrends = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/trends');
+        const res = await fetch('/api/trends');
         const data = await res.json();
         setTrends(data);
       } catch (error) {

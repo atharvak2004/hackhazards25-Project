@@ -42,26 +42,7 @@ router.get("/mine", protect, async (req, res) => {
   res.json(circles);
 });
 
-// Get messages for a circle
-router.get("/:id/messages", protect, async (req, res) => {
-  const circleId = req.params.id;
-  if (!circleId) return res.status(400).json({ message: "Circle ID is required" });
-
-  console.log("Fetching messages for circle ID:", circleId); // ✅ debug
-
-  try {
-    const messages = await CircleMessage.find({ circle: circleId })
-      .populate("sender", "name")
-      .sort({ createdAt: 1 });
-    res.json(messages);
-  } catch (err) {
-    console.error("Message fetch error:", err.message);
-    res.status(500).json({ message: "Failed to fetch messages" });
-  }
-});
-
-// Get public circles
-
+// ✅ Get public circle - defined before dynamic routes
 router.get("/public", protect, async (req, res) => {
   try {
     let circle = await Circle.findOne({ isPublic: true });
@@ -88,6 +69,23 @@ router.get("/public", protect, async (req, res) => {
   }
 });
 
+// Get messages for a circle
+router.get("/:id/messages", protect, async (req, res) => {
+  const circleId = req.params.id;
+  if (!circleId) return res.status(400).json({ message: "Circle ID is required" });
+
+  console.log("Fetching messages for circle ID:", circleId);
+
+  try {
+    const messages = await CircleMessage.find({ circle: circleId })
+      .populate("sender", "name")
+      .sort({ createdAt: 1 });
+    res.json(messages);
+  } catch (err) {
+    console.error("Message fetch error:", err.message);
+    res.status(500).json({ message: "Failed to fetch messages" });
+  }
+});
 
 // Send message in a circle
 router.post("/:id/messages", protect, async (req, res) => {
@@ -97,7 +95,7 @@ router.post("/:id/messages", protect, async (req, res) => {
   if (!circleId) return res.status(400).json({ message: "Circle ID is required" });
   if (!content) return res.status(400).json({ message: "Message content is required" });
 
-  console.log("Sending message to circle ID:", circleId); 
+  console.log("Sending message to circle ID:", circleId);
 
   try {
     const message = await CircleMessage.create({
@@ -114,28 +112,28 @@ router.post("/:id/messages", protect, async (req, res) => {
   }
 });
 
-router.post('/:id/join', protect, async (req, res) => {
-    const circleId = req.params.id;
-    const userId = req.user._id;
-    console.log("👉 Join route hit with ID:", req.params.id);
-    try {
-      const circle = await Circle.findById(circleId);
-      if (!circle) return res.status(404).json({ message: "Circle not found" });
-  
-      // Check if already a member
-      if (circle.members.includes(userId)) {
-        return res.status(400).json({ message: "Already a member" });
-      }
-  
-      circle.members.push(userId);
-      await circle.save();
-  
-      res.json({ message: "Joined successfully" });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Failed to join" });
+// Join a circle
+router.post("/:id/join", protect, async (req, res) => {
+  const circleId = req.params.id;
+  const userId = req.user._id;
+  console.log("👉 Join route hit with ID:", req.params.id);
+
+  try {
+    const circle = await Circle.findById(circleId);
+    if (!circle) return res.status(404).json({ message: "Circle not found" });
+
+    if (circle.members.includes(userId)) {
+      return res.status(400).json({ message: "Already a member" });
     }
-  });
-  
+
+    circle.members.push(userId);
+    await circle.save();
+
+    res.json({ message: "Joined successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to join" });
+  }
+});
 
 module.exports = router;

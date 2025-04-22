@@ -4,6 +4,9 @@ import Title from "../components/Title";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Add API base URL here
+
 function MySessions() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +16,7 @@ function MySessions() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/sessions", {
+        const res = await axios.get(`${API_BASE_URL}/api/sessions`, { // Updated API URL
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,13 +55,10 @@ function MySessions() {
               key={session._id}
               className="border rounded-xl p-5 shadow bg-blue-100 space-y-3"
             >
-              <div className="text-3xl font-bold text-gray-800 mb-2"> 
+              <div className="text-3xl font-bold text-gray-800 mb-2">
                 {(user?.role === "mentor" && session.userName) ||
                   (user?.role === "student" && session.mentorName) ||
                   "Unknown Participant"}
-
-
-
               </div>
 
               <div className="text-md text-gray-600 mb-1">

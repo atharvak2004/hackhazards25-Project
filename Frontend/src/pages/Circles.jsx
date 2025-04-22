@@ -5,9 +5,12 @@ import CreateCircleForm from "../components/CreateCircleForm";
 import CircleChat from "../components/CircleChat";
 import JoinCircle from "../components/JoinCircle";
 import Title from "../components/Title";
+
+// ✅ Optional: If using PublicCircles later
 // import PublicCircles from "../components/PublicCircles";
 
-
+// ✅ Dynamic API base URL for dev/prod
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function Circles() {
   const [view, setView] = useState("list");
@@ -17,7 +20,7 @@ function Circles() {
 
   const fetchCircles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/circles/mine", {
+      const res = await axios.get(`${API_BASE_URL}/api/circles/mine`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -55,9 +58,9 @@ function Circles() {
       {view === "create" && (
         <CreateCircleForm
           onCreated={() => {
-            fetchCircles();       
+            fetchCircles();
             setActiveCircle(null);
-            setView("list");      
+            setView("list");
           }}
         />
       )}
@@ -65,12 +68,12 @@ function Circles() {
       {view === "chat" && activeCircle && (
         <CircleChat circle={activeCircle} onBack={() => setView("list")} />
       )}
+
+      {/* Future: Enable this if you add global/public circles */}
       {/* <PublicCircles onOpen={(circle) => {
         setActiveCircle(circle);
         setView("chat");
       }} /> */}
-
-
     </div>
   );
 }

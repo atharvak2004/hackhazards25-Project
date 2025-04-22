@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Update API base URL
+
 function AIQueryBox() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,7 +13,7 @@ function AIQueryBox() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/ai/mentor-assist", {
+      const res = await axios.post(`${API_BASE_URL}/api/ai/mentor-assist`, {
         prompt: query,
       });
 
@@ -48,7 +50,7 @@ function AIQueryBox() {
       />
 
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-4/12 mt-5  "
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-4/12 mt-5"
         onClick={handleAsk}
         disabled={loading}
       >
@@ -60,12 +62,11 @@ function AIQueryBox() {
           <div key={index} className="border rounded-2xl p-6 bg-white">
             <p className="font-semibold text-gray-800">You: {entry.question}</p>
             <p className="mt-1 text-sm text-gray-600 whitespace-pre-wrap">
-               {entry.answer}
+              {entry.answer}
             </p>
           </div>
         ))}
       </div>
-
     </div>
   );
 }

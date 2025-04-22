@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// ✅ Dynamic base URL for dev/production
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 function EditStudentProfile() {
-  const [name, setName] = useState(""); // ✅ New name field
+  const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [skills, setSkills] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
@@ -14,13 +17,13 @@ function EditStudentProfile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/students/me", {
+        const res = await axios.get(`${API_BASE_URL}/api/students/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         const data = res.data;
-        setName(res.data.user?.name || "");
+        setName(data.user?.name || "");
         setBio(data.bio || "");
         setSkills(data.skills?.join(", ") || "");
         setProfilePicture(data.profilePicture || "");
@@ -36,9 +39,9 @@ function EditStudentProfile() {
     e.preventDefault();
     try {
       await axios.put(
-        "http://localhost:5000/api/students/me",
+        `${API_BASE_URL}/api/students/me`,
         {
-          name, // ✅ send name
+          name,
           bio,
           skills: skills.split(",").map((s) => s.trim()),
           profilePicture,
@@ -79,7 +82,7 @@ function EditStudentProfile() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-300">Skills(comma-separated)...</label>
+            <label className="block text-sm font-medium text-gray-300">Skills (comma-separated)...</label>
             <input
               className="w-full border rounded p-2"
               value={skills}

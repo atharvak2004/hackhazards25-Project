@@ -1,9 +1,13 @@
 import React from "react";
 
-// ✅ No need to import axios if it's unused
-
 function CircleList({ circles, onCreateClick, onOpenChat }) {
-  if (!circles.length) return <p>No circles yet. Create or join one!</p>;
+  if (!circles.length) {
+    return (
+      <p className="text-center text-xl text-gray-500">
+        No circles yet. Create or join one to get started!
+      </p>
+    );
+  }
 
   return (
     <div>

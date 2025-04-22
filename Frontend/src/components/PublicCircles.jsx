@@ -9,7 +9,7 @@ const PublicCircles = ({ onOpen }) => {
   useEffect(() => {
     const getPublicCircle = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/circles/public", {
+        const res = await axios.get("/api/circles/public", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

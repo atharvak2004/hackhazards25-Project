@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Session = require("../models/Session");
-const User = require("../models/User"); 
+const User = require("../models/User");
 const protect = require("../middleware/authMiddleware");
-
 
 // GET all booked sessions (with optional filters)
 router.get("/", async (req, res) => {
@@ -13,7 +12,7 @@ router.get("/", async (req, res) => {
     if (mentorId) filter.mentorId = mentorId;
     if (userId) filter.userId = userId;
 
-    const sessions = await Session.find(filter).sort({ createdAt: -1 });
+    const sessions = await Session.find(filter).sort({ date: 1, time: 1 });
     res.json(sessions);
   } catch (error) {
     console.error("Error fetching sessions:", error);
@@ -55,20 +54,23 @@ router.post("/", protect, async (req, res) => {
   }
 
   try {
-    // Validate mentor exists and is actually a mentor
     const mentor = await User.findById(mentorId);
     if (!mentor || mentor.role !== "mentor") {
       return res.status(400).json({ message: "Invalid mentor." });
     }
 
-    // Prevent booking in the past
-    const now = new Date();
     const sessionDateTime = new Date(`${date}T${time}`);
+    const now = new Date();
+
+    // Optional safety check
+    if (isNaN(sessionDateTime.getTime())) {
+      return res.status(400).json({ message: "Invalid date or time format." });
+    }
+
     if (sessionDateTime < now) {
       return res.status(400).json({ message: "Cannot book a session in the past." });
     }
 
-    // Check for existing booking
     const existingSession = await Session.findOne({
       userId: req.user._id,
       mentorId,

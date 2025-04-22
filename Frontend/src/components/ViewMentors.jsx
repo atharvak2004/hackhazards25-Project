@@ -4,22 +4,22 @@ import Title from './Title';
 
 function ViewMentors() {
   return (
-    <div className='flex flex-col w-4/5  mb-20 '>
-      <div className='w-full flex justify-center mt-20'>
+    <div className="flex flex-col w-4/5 mb-20">
+      <div className="w-full flex justify-center mt-20">
         <Title text1={"Meet Our"} text2={"Mentors"} />
       </div>
 
-      <div className='flex flex-col sm:flex-row '>
-        <div className='w-full sm:w-1/2 flex items-center justify-center p-6'>
+      <div className="flex flex-col sm:flex-row">
+        <div className="w-full sm:w-1/2 flex items-center justify-center p-6">
           <img
-            src="\assets\Mentors_img4.png"
-            alt="Mentors"
-            className='w-11/12 rounded-full transition-transform transform hover:scale-110'
+            src="/assets/Mentors_img4.png" // Changed to use forward slash
+            alt="A group of diverse professionals, mentors ready to guide"
+            className="w-11/12 rounded-full transition-transform transform hover:scale-110"
           />
         </div>
-        <div className='w-full sm:w-1/2 flex items-center justify-center p-6'>
+        <div className="w-full sm:w-1/2 flex items-center justify-center p-6">
           <div>
-            <p className='mb-6 text-lg text-gray-500'>
+            <p className="mb-6 text-lg text-gray-500">
               Browse profiles of experienced professionals ready to guide you. Filter by skills, industries, and more to find your perfect match.
             </p>
             <Link

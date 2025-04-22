@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Title from "../components/Title";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Add API base URL here
+
 function MyStudentProfile() {
     const [student, setStudent] = useState(null);
     const [error, setError] = useState("");
@@ -12,7 +14,7 @@ function MyStudentProfile() {
     useEffect(() => {
         const fetchStudent = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/students/me", {
+                const res = await axios.get(`${API_BASE_URL}/api/students/me`, { // Updated API URL
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -26,7 +28,7 @@ function MyStudentProfile() {
         };
 
         fetchStudent();
-    }, []);
+    }, [token]);
 
     if (loading) return <div className="p-6">Loading...</div>;
     if (error) return <div className="p-6 text-red-600">{error}</div>;
@@ -47,7 +49,7 @@ function MyStudentProfile() {
                 <h3 className="text-2xl font-semibold mb-3">
                     {student.user?.name || "Unnamed Student"}
                 </h3>
-                <p className="text-sm text-gray-500 m   b-2">
+                <p className="text-sm text-gray-500 mb-2">
                     Email: {student.user?.email}
                 </p>
 
