@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import './spline.css';
+import { motion } from 'framer-motion';
 
 function VideoSpline() {
 
