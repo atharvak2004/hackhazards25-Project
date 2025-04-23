@@ -9,9 +9,18 @@ router.get('/mine', protect, async (req, res) => {
     let sessions;
 
     if (req.user.role === 'mentor') {
-      sessions = await Session.find({ mentorId: req.user._id.toString() }).sort({ date: 1, time: 1 });
+      // 🔍 Find the mentor document linked to the user
+      const mentor = await Mentor.findOne({ userId: req.user._id });
+
+      if (!mentor) {
+        return res.status(404).json({ message: 'Mentor profile not found' });
+      }
+
+      // 🗓️ Get sessions where this mentor is assigned
+      sessions = await Session.find({ mentorId: mentor._id }).sort({ date: 1, time: 1 });
     } else {
-      sessions = await Session.find({ userId: req.user._id.toString() }).sort({ date: 1, time: 1 });
+      // 👤 Get sessions for student directly using userId
+      sessions = await Session.find({ userId: req.user._id }).sort({ date: 1, time: 1 });
     }
 
     res.status(200).json(sessions);
