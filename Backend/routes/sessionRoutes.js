@@ -1,16 +1,18 @@
 const express = require('express');
-const router = express.Router(); // This defines the router
-const { protect } = require('../middleware/authMiddleware'); // Assuming you have some middleware for auth
-const Session = require('../models/Session'); // Import Session model if needed
-const Mentor = require('../models/Mentor'); // Import Mentor model if needed
+const router = express.Router();
+const protect = require('../middleware/authMiddleware');  // Ensure this is correctly required
+const Mentor = require('../models/Mentor');
+const Session = require('../models/Session');  // Ensure you have the correct Session model
 
-// Your route handlers here
+// Booking route
 router.post("/", protect, async (req, res) => {
   if (req.user.role !== "student") {
     return res.status(403).json({ message: "Only students can book sessions." });
   }
 
   const { mentorId, date, time, message } = req.body;
+
+  // Ensure mentorId is treated as ObjectId
   const ObjectId = require('mongoose').Types.ObjectId;
 
   if (!ObjectId.isValid(mentorId)) {
@@ -24,6 +26,7 @@ router.post("/", protect, async (req, res) => {
       return res.status(400).json({ message: "Mentor not found." });
     }
 
+    // Create and save the session
     const session = new Session({
       userId: req.user._id,
       userName: req.user.name,
@@ -42,4 +45,4 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-module.exports = router; // Export the router
+module.exports = router;
