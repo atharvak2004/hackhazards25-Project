@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function BookSession() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    mentorId: '',
     mentorName: '',
     date: '',
     time: '',
     message: ''
   });
+  const [mentors, setMentors] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // Handles input changes
+  const token = localStorage.getItem('token');
+
+  // Fetch mentor list
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/mentors`);
+        setMentors(res.data);
+      } catch (err) {
+        console.error("Error fetching mentors:", err);
+      }
+    };
+    fetchMentors();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,25 +40,20 @@ function BookSession() {
     }));
   };
 
-  // Handles form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    const token = localStorage.getItem('token');
+    console.log("Submitting form data:", formData);
 
     if (!token) {
       setError("Please log in first.");
       return;
     }
 
-    console.log("Token being sent:", token);
-    console.log("Form data:", formData);
-
     try {
-      // ✅ Use VITE_API_BASE_URL for production compatibility
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/sessions`, 
-        formData, 
+        `${API_BASE_URL}/api/sessions`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,11 +64,15 @@ function BookSession() {
 
       console.log("Booking successful:", res.data);
       setSuccess(true);
-      setFormData({ mentorName: '', date: '', time: '', message: '' });
+      setFormData({
+        mentorId: '',
+        mentorName: '',
+        date: '',
+        time: '',
+        message: ''
+      });
 
-      // Redirect after a short delay
-      setTimeout(() => navigate("/my-sessions"), 3000);
-
+      setTimeout(() => navigate("/my-sessions"), 2000);
     } catch (err) {
       console.error("Booking error:", err.response?.data || err.message);
       setError(err.response?.data?.message || "Booking failed. Please try again.");
@@ -64,34 +81,35 @@ function BookSession() {
 
   return (
     <div className='min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center'>
-      <div className="max-w-md mx-auto p-8 mt-4 rounded-2xl border border-black">
-        <h2 className="prata-regular text-4xl font-bold mb-4 text-center text-white">Book a Session...</h2>
+      <div className="max-w-md mx-auto p-8 mt-4 rounded-2xl border border-black bg-white">
+        <h2 className="text-4xl font-bold mb-4 text-center text-black">Book a Session</h2>
 
-        {/* Error Message */}
-        {error && (
-          <div className="mb-4 p-2 bg-red-100 text-red-700 rounded border border-red-300">
-            {error}
-          </div>
-        )}
+        {error && <div className="mb-4 p-2 bg-red-100 text-red-700 rounded border border-red-300">{error}</div>}
+        {success && <div className="mb-4 p-2 bg-green-100 text-green-700 rounded border border-green-300">Booking successful! Redirecting...</div>}
 
-        {/* Success Message */}
-        {success && (
-          <div className="mb-4 p-2 bg-green-100 text-green-700 rounded border border-green-300">
-            Booking successful! Redirecting...
-          </div>
-        )}
-
-        {/* Booking Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="mentorName"
-            placeholder="Mentor's Name . . ."
-            value={formData.mentorName}
-            onChange={handleChange}
+          <select
+            name="mentorId"
+            value={formData.mentorId}
+            onChange={(e) => {
+              const selectedMentor = mentors.find(m => m._id === e.target.value);
+              setFormData((prev) => ({
+                ...prev,
+                mentorId: e.target.value,
+                mentorName: selectedMentor ? selectedMentor.name : ''
+              }));
+            }}
             required
-            className="w-full p-2 border rounded"
-          />
+          >
+            <option value="">Select a mentor</option>
+            {mentors.map((mentor) => (
+              <option key={mentor._id} value={mentor._id}>
+                {mentor.name}
+              </option>
+            ))}
+          </select>
+
+
           <input
             type="date"
             name="date"

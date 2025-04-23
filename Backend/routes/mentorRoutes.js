@@ -4,8 +4,8 @@ const Mentor = require("../models/Mentor");
 const User = require("../models/User");
 const protect = require("../middleware/authMiddleware");
 
-//Get all mentors
-//GET /api/mentors
+// Get all mentors
+// GET /api/mentors
 router.get("/", async (req, res) => {
   try {
     const mentors = await Mentor.find();
@@ -46,8 +46,8 @@ router.get("/me", protect, (req, res) => {
     });
 });
 
-//Add a mentor
-//POST /api/mentors
+// Add a mentor
+// POST /api/mentors
 router.post("/", protect, async (req, res) => {
   if (req.user.role !== "mentor") {
     return res.status(403).json({ message: "Only mentors can create mentor profiles." });
@@ -73,9 +73,8 @@ router.post("/", protect, async (req, res) => {
   }
 });
 
-
+// Update mentor profile
 router.put("/me", protect, async (req, res) => {
-  // Restrict to mentors only
   if (req.user.role !== "mentor") {
     return res.status(403).json({ message: "Only mentors can update their profile." });
   }

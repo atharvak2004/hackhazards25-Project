@@ -5,7 +5,7 @@ const mentorSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      unique: true, 
+      unique: true,
     },
     name: { type: String, required: true },
     expertise: { type: [String], required: true },

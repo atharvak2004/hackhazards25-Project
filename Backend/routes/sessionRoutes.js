@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Session = require("../models/Session");
 const User = require("../models/User");
+const Mentor = require("../models/Mentor");
 const protect = require("../middleware/authMiddleware");
 
 // GET all booked sessions (with optional filters)
@@ -54,15 +55,15 @@ router.post("/", protect, async (req, res) => {
   }
 
   try {
-    const mentor = await User.findById(mentorId);
-    if (!mentor || mentor.role !== "mentor") {
+    // Ensure the mentor exists in the Mentor model (not just User)
+    const mentor = await Mentor.findOne({ userId: mentorId });
+    if (!mentor) {
       return res.status(400).json({ message: "Invalid mentor." });
     }
 
     const sessionDateTime = new Date(`${date}T${time}`);
     const now = new Date();
 
-    // Optional safety check
     if (isNaN(sessionDateTime.getTime())) {
       return res.status(400).json({ message: "Invalid date or time format." });
     }

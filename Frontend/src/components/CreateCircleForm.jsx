@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-console.log("API Base URL:", import.meta.env.VITE_API_BASE_URL);
-
-// Fetch the API base URL from environment variable
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function CreateCircleForm({ onCreated }) {
   const [name, setName] = useState("");
@@ -13,10 +9,11 @@ function CreateCircleForm({ onCreated }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation: Name can't be empty
     if (!name.trim()) {
       setMessage("Circle name is required.");
       return;
@@ -26,7 +23,7 @@ function CreateCircleForm({ onCreated }) {
 
     try {
       await axios.post(
-        `${API_BASE_URL}/api/circles`,  // Use the base URL here
+        `${API_BASE_URL}/api/circles`,
         { name },
         {
           headers: { Authorization: `Bearer ${token}` },

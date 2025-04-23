@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Title from "../components/Title";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faClock } from "@fortawesome/free-solid-svg-icons";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Add API base URL here
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function MySessions() {
   const [sessions, setSessions] = useState([]);
@@ -16,11 +15,12 @@ function MySessions() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/sessions`, { // Updated API URL
+        const res = await axios.get(`${API_BASE_URL}/api/sessions/mine`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+  
         setSessions(res.data);
       } catch (err) {
         console.error("Error fetching sessions:", err);
@@ -28,7 +28,7 @@ function MySessions() {
         setLoading(false);
       }
     };
-
+  
     fetchSessions();
   }, [token]);
 
