@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  define: {
-    'process.env': {}, // to avoid issues with 'process.env' usage in client
-  }
+  base: './', // ✅ Important for relative paths in Vercel
+  build: {
+    outDir: 'dist', // ✅ Required
+  },
 });

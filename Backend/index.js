@@ -16,7 +16,7 @@ const server = http.createServer(app);
 app.use(cors({
   origin: [
     "http://localhost:5173", // local dev
-    "https://vercel.com/atharvak2004s-projects/skillora/9WQX1tovrpgHymWyr156w9ugEcnf" // replace with your actual Vercel frontend URL
+    "https://skillora-two.vercel.app/" // replace with your actual Vercel frontend URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
@@ -29,7 +29,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://vercel.com/atharvak2004s-projects/skillora/9WQX1tovrpgHymWyr156w9ugEcnf"
+      "https://skillora-two.vercel.app/"
     ],
     methods: ["GET", "POST"],
   }
