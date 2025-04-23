@@ -10,12 +10,13 @@ import AsktheAI from "../components/AsktheAI";
 import HeroSpline from "../components/HeroSpline";
 import JoinTheCirlce from "../components/JoinTheCirlce";
 import ViewTrensAndNews from "../components/ViewTrensAndNews";
+import VideoSpline from "../components/VideoSpline";
 
 function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
-      <HeroSpline />
+      <VideoSpline />
       <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] flex flex-col justify-center items-center text-center p-6">
         <WhyChooseUs />
         <ViewMentors />

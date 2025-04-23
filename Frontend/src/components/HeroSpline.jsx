@@ -52,5 +52,5 @@ function HeroSpline() {
     </div>
   );
 }
-
+  
 export default HeroSpline;
