@@ -12,14 +12,12 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Setup CORS to allow frontend origins
+// ✅ Setup CORS to allow all origins, methods, and credentials
 app.use(cors({
-  origin: [
-    "http://localhost:5173", // local dev
-    "https://skillora-two.vercel.app/" // replace with your actual Vercel frontend URL
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,  // Allow credentials such as cookies or authorization headers
+  origin: "*", // Allow all origins (Not recommended for production)
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all HTTP methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow these headers
+  credentials: true, // Allow cookies and credentials
 }));
 
 app.use(express.json()); // For parsing JSON requests
@@ -27,10 +25,7 @@ app.use(express.json()); // For parsing JSON requests
 // ✅ Setup Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173", // local dev
-      "https://skillora-two.vercel.app/" // replace with your actual Vercel frontend URL
-    ],
+    origin: "*", // Allow all origins (Not recommended for production)
     methods: ["GET", "POST"],
   }
 });
@@ -74,7 +69,7 @@ app.get("/", (req, res) => {
   res.send("API is running ");
 });
 
-// Import and use routes for authentication, mentors, sessions, etc.
+// Example route setup (uncomment if needed)
 app.use("/api/mentors", require("./routes/mentorRoutes"));
 app.use("/api/sessions", require("./routes/sessionRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
