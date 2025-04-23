@@ -49,27 +49,39 @@ function BookSession() {
     e.preventDefault();
     setError('');
     setSuccess(false);
+  
+    // Log the form data being submitted
     console.log("FORM SUBMIT DEBUG:", {
       mentorId: formData.mentorId,
-      mentorName: formData.mentorName
+      date: formData.date,
+      time: formData.time,
+      message: formData.message
     });
-    
-
+  
+    // Check if mentorId is in the mentor list
+    console.log("Selected mentorId:", formData.mentorId);
+    console.log("Mentor List:", mentors);
+  
     // Basic validation
     if (!formData.mentorId || !formData.date || !formData.time) {
       setError('Please fill in all required fields.');
       return;
     }
-
+  
     if (!token) {
       setError("Please log in first.");
       return;
     }
-
+  
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/sessions`,
-        formData,
+        {
+          mentorId: formData.mentorId,
+          date: formData.date,
+          time: formData.time,
+          message: formData.message
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,23 +89,23 @@ function BookSession() {
           }
         }
       );
-
+  
       console.log("Booking successful:", res.data);
       setSuccess(true);
       setFormData({
         mentorId: '',
-        mentorName: '',
         date: '',
         time: '',
         message: ''
       });
-
+  
       setTimeout(() => navigate("/my-sessions"), 2000);
     } catch (err) {
       console.error("Booking error:", err.response?.data || err.message);
       setError(err.response?.data?.message || "Booking failed. Please try again.");
     }
   };
+  
 
   return (
     <div className='min-h-screen pt-16 bg-[radial-gradient(circle_at_center,_#C40AB5,_#060666,_#08042E)] flex flex-col justify-center items-center'>
@@ -112,7 +124,7 @@ function BookSession() {
               setFormData((prev) => ({
                 ...prev,
                 mentorId: selectedMentor?._id || '',
-                mentorName: selectedMentor?.name || ''
+                mentorName: selectedMentor?.name || ''  // optional, if you really need it
               }));
             }}
             required
