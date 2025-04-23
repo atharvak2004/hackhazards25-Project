@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { XCircle } from "lucide-react";
 
-// Fetch the API base URL from environment variable or use default (localhost)
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+// Fetch the deployed API base URL from environment variable
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://skillora-ha6e.onrender.com";
 
 const JoinCircle = ({ onJoined }) => {
   const [inputValue, setInputValue] = useState("");

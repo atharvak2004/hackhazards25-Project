@@ -6,10 +6,6 @@ import CircleChat from "../components/CircleChat";
 import JoinCircle from "../components/JoinCircle";
 import Title from "../components/Title";
 
-// ✅ Optional: If using PublicCircles later
-// import PublicCircles from "../components/PublicCircles";
-
-// ✅ Dynamic API base URL for dev/prod
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function Circles() {

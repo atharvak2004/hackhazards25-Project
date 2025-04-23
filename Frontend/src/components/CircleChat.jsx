@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// Fetch the API base URL from environment variable or use default (localhost)
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function CircleChat({ circle, onBack }) {
   const [messages, setMessages] = useState([]);
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false); // Track loading state for message sending
-  const [loadingMessages, setLoadingMessages] = useState(false); // Track loading state for fetching messages
-  const [errorMessage, setErrorMessage] = useState(""); // To track errors in fetching or sending messages
+  const [loading, setLoading] = useState(false);
+  const [loadingMessages, setLoadingMessages] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -21,7 +20,7 @@ function CircleChat({ circle, onBack }) {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessages(res.data);
-        setErrorMessage(""); // Reset error message on successful fetch
+        setErrorMessage("");
       } catch (error) {
         setErrorMessage("Failed to fetch messages. Please try again.");
         console.error("Error fetching messages:", error);
@@ -36,11 +35,7 @@ function CircleChat({ circle, onBack }) {
     e.preventDefault();
     if (!circle?._id || !content.trim()) return;
     setLoading(true);
-
-    // Optimistic UI update
-    const newMessage = { sender: { name: "You" }, content };
-    setMessages((prev) => [...prev, newMessage]);
-
+  
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/circles/${circle._id}/messages`,
@@ -49,11 +44,9 @@ function CircleChat({ circle, onBack }) {
       );
       setMessages((prev) => [...prev, res.data]);
       setContent("");
-      setErrorMessage(""); // Clear error message if sending succeeds
+      setErrorMessage(""); 
     } catch (error) {
       console.error("Error sending message:", error);
-      // Revert the optimistic UI update in case of error
-      setMessages((prev) => prev.slice(0, -1)); 
       setErrorMessage("Failed to send message. Please try again.");
     } finally {
       setLoading(false);
@@ -66,13 +59,13 @@ function CircleChat({ circle, onBack }) {
         ← Back to Circles
       </button>
 
-      <h2 className="text-2xl font-bold mb-4">🗨️ {circle.name} Chat</h2>
+      <h2 className="text-2xl font-bold mb-4">🔨 {circle.name} Chat</h2>
       <p className="text-sm text-gray-400">
-        Invite link: <code>{`${window.location.origin}/circles/join/${circle._id}`}</code>
+        Invite link: <code>{`https://skillora-two.vercel.app/circles/join/${circle._id}`}</code>
       </p>
       <button
         onClick={() => {
-          navigator.clipboard.writeText(`${window.location.origin}/circles/join/${circle._id}`);
+          navigator.clipboard.writeText(`https://skillora-two.vercel.app/circles/join/${circle._id}`);
           alert("Link copied!");
         }}
         className="text-xs text-blue-500 underline mt-1"

@@ -23,7 +23,7 @@ function CreateCircleForm({ onCreated }) {
 
     try {
       await axios.post(
-        `${API_BASE_URL}/api/circles`,
+        `${API_URL}/api/circles`, // ✅ Fixed from API_BASE_URL to API_URL
         { name },
         {
           headers: { Authorization: `Bearer ${token}` },
