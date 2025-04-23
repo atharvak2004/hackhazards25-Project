@@ -4,25 +4,20 @@ const protect = require('../middleware/authMiddleware');  // Ensure this is corr
 const Mentor = require('../models/Mentor');
 const Session = require('../models/Session');  // Ensure you have the correct Session model
 
-router.get("/mine", protect, async (req, res) => {
+router.get('/mine', protect, async (req, res) => {
   try {
-    // If the user is a student, find all sessions where the user is the student
-    if (req.user.role === "student") {
-      const sessions = await Session.find({ userId: req.user._id }).sort({ date: 1, time: 1 });
-      return res.status(200).json(sessions);
+    let sessions;
+
+    if (req.user.role === 'mentor') {
+      sessions = await Session.find({ mentorId: req.user._id.toString() }).sort({ date: 1, time: 1 });
+    } else {
+      sessions = await Session.find({ userId: req.user._id.toString() }).sort({ date: 1, time: 1 });
     }
 
-    // If the user is a mentor, find all sessions where the user is the mentor
-    if (req.user.role === "mentor") {
-      const sessions = await Session.find({ mentorId: req.user._id }).sort({ date: 1, time: 1 });
-      return res.status(200).json(sessions);
-    }
-
-    // If the role is neither student nor mentor, return a 403 Forbidden
-    return res.status(403).json({ message: "Unauthorized to access sessions." });
+    res.status(200).json(sessions);
   } catch (error) {
-    console.error("Error fetching sessions:", error);
-    res.status(500).json({ message: "Failed to fetch sessions." });
+    console.error('Error fetching sessions:', error);
+    res.status(500).json({ message: 'Failed to fetch sessions' });
   }
 });
 
