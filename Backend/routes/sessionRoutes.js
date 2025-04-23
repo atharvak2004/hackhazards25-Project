@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router(); // This defines the router
-
-const { protect } = require('../middleware/auth'); // Assuming you have some middleware for auth
+const { protect } = require('../middleware/authMiddleware'); // Assuming you have some middleware for auth
 const Session = require('../models/Session'); // Import Session model if needed
 const Mentor = require('../models/Mentor'); // Import Mentor model if needed
 
