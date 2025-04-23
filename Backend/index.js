@@ -6,20 +6,20 @@ const http = require("http");
 const { Server } = require("socket.io");
 const axios = require("axios");
 
-dotenv.config(); // Load environment variables from .env
-connectDB(); // Connect to the database (make sure your DB connection is working)
+dotenv.config();
+connectDB();
 
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Setup CORS
+// ✅ Setup CORS to allow frontend origins
 app.use(cors({
   origin: [
-    "http://localhost:5173", // Local dev
-    "https://skillora-two.vercel.app/" // Production URL
+    "http://localhost:5173", // local dev
+    "https://skillora-two.vercel.app/" // replace with your actual Vercel frontend URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+  credentials: true,  // Allow credentials such as cookies or authorization headers
 }));
 
 app.use(express.json()); // For parsing JSON requests
@@ -28,8 +28,8 @@ app.use(express.json()); // For parsing JSON requests
 const io = new Server(server, {
   cors: {
     origin: [
-      "http://localhost:5173",
-      "https://skillora-two.vercel.app/"
+      "http://localhost:5173", // local dev
+      "https://skillora-two.vercel.app/" // replace with your actual Vercel frontend URL
     ],
     methods: ["GET", "POST"],
   }
@@ -42,7 +42,7 @@ const fetchTechNews = async () => {
       params: {
         category: "technology",
         language: "en",
-        apiKey: process.env.NEWS_API_KEY, // Your News API key from .env
+        apiKey: process.env.NEWS_API_KEY,
       },
     });
     return response.data.articles;
@@ -52,17 +52,16 @@ const fetchTechNews = async () => {
   }
 };
 
-// Emit tech news on every connection
 io.on("connection", (socket) => {
   console.log("📡 New client connected");
 
   const sendNews = async () => {
     const news = await fetchTechNews();
-    socket.emit("techNews", news); // Send news to the client
+    socket.emit("techNews", news);
   };
 
   sendNews();
-  const interval = setInterval(sendNews, 60000); // Fetch news every 60 seconds
+  const interval = setInterval(sendNews, 60000); // every 60 sec
 
   socket.on("disconnect", () => {
     clearInterval(interval);
@@ -72,10 +71,10 @@ io.on("connection", (socket) => {
 
 // ✅ Routes
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("API is running ");
 });
 
-// API Routes
+// Import and use routes for authentication, mentors, sessions, etc.
 app.use("/api/mentors", require("./routes/mentorRoutes"));
 app.use("/api/sessions", require("./routes/sessionRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
@@ -83,12 +82,6 @@ app.use("/api/ai", require("./routes/aiRoutes"));
 app.use("/api/trends", require("./routes/trendingRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/circles", require("./routes/circleRoutes"));
-
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
-});
 
 // ✅ Start Server
 const PORT = process.env.PORT || 5000;
