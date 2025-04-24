@@ -33,19 +33,13 @@ const io = new Server(server, {
 // ✅ Tech News with Socket.IO
 const fetchTechNews = async () => {
   try {
-    const response = await axios.get("https://newsapi.org/v2/top-headlines", {
+    const response = await axios.get("https://gnews.io/api/v4/top-headlines", {
       params: {
-        category: "technology",
-        language: "en",
-        apiKey: process.env.NEWS_API_KEY,
+        topic: "technology",
+        lang: "en",
+        token: "5cf0858c46737b61b2e06c063b271356", // 🔐 Your GNews API key
       },
     });
-
-    // Debugging log: Check response data
-    console.log("Fetched tech news:", response.data.articles.length);
-    if (response.data.articles.length === 0) {
-      console.log("No news articles found!");
-    }
 
     return response.data.articles;
   } catch (error) {
@@ -59,15 +53,11 @@ io.on("connection", (socket) => {
 
   const sendNews = async () => {
     const news = await fetchTechNews();
-    
-    // Debugging log: Check news data length
-    console.log("Sending news to client:", news.length);
-    
     socket.emit("techNews", news);
   };
 
   sendNews();
-  const interval = setInterval(sendNews, 60000); // every 60 sec
+  const interval = setInterval(sendNews, 300000); 
 
   socket.on("disconnect", () => {
     clearInterval(interval);
@@ -89,6 +79,6 @@ app.use("/api/trends", require("./routes/trendingRoutes"));
 app.use("/api/students", require("./routes/studentRoutes"));
 app.use("/api/circles", require("./routes/circleRoutes"));
 
-// ✅ Start Server
+// ✅ Start Server  
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
