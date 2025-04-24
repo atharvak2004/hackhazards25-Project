@@ -16,7 +16,9 @@ import EditMentorProfile from "./pages/EditMentorProfile";
 import MyStudentProfile from "./pages/MyStudentProfile";
 import EditStudentProfile from "./pages/EditStudentProfile";
 import Circles from "./pages/Circles";
-
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import About from "./pages/About";
 
 
 
@@ -44,8 +46,9 @@ function App() {
         <Route path="/student/edit" element={<EditStudentProfile />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/circles" element={<Circles />} />
-
-
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
       <Footer />
     </>

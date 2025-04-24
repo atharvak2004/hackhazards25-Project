@@ -20,9 +20,9 @@ function JoinTheCirlce() {
             View Circles
           </Link>
         </div>
-        <div className='flex-1 p-4 flex justify-center'>
+        <div className='flex-1 p-2 flex justify-center'>
           <img
-            src="\assets\Circle_img.png"
+            src="\assets\Circle_img(3).png"
             alt="joinCirlce"
             className='rounded-full w-11/12 lg:w-9/12 transition-transform transform hover:scale-110'
           />

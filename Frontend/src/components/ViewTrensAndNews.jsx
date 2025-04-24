@@ -5,14 +5,14 @@ import Title from './Title';
 function ViewTrensAndNews() {
   return (
     <div className='flex flex-col w-4/5  mb-20 '>
-      <div className='w-full flex justify-center mt-20'>
+      <div className='w-full flex justify-center mt-20 mb-10'>
         <Title text1={"Letest Trends"} text2={"& News..."} />
       </div>
 
       <div className='flex flex-col sm:flex-row '>
-        <div className='w-full sm:w-1/2 flex items-center justify-center p-6'>
+        <div className='lg:w-2/6 sm:w-1/2 flex items-center justify-center p-6'>
           <img
-            src="\assets\Trends_img.png"
+            src="\assets\Trends_img (5).png"
             alt="Mentors"
             className='w-11/12 rounded-full transition-transform transform hover:scale-110'
           />

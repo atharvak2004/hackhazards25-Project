@@ -40,6 +40,13 @@ const fetchTechNews = async () => {
         apiKey: process.env.NEWS_API_KEY,
       },
     });
+
+    // Debugging log: Check response data
+    console.log("Fetched tech news:", response.data.articles.length);
+    if (response.data.articles.length === 0) {
+      console.log("No news articles found!");
+    }
+
     return response.data.articles;
   } catch (error) {
     console.error("Error fetching tech news:", error.message);
@@ -52,6 +59,10 @@ io.on("connection", (socket) => {
 
   const sendNews = async () => {
     const news = await fetchTechNews();
+    
+    // Debugging log: Check news data length
+    console.log("Sending news to client:", news.length);
+    
     socket.emit("techNews", news);
   };
 

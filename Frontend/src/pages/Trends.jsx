@@ -10,18 +10,18 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Title from "../components/Title";
+import NewsCard from "../components/NewsCard"; // import the NewsCard component
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"; // Add API base URL here
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 function Trends() {
   const [trends, setTrends] = useState([]);
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    // Fetch trending skills
     const fetchTrends = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/api/trends`); // Updated API URL
+        const res = await fetch(`${API_BASE_URL}/api/trends`);
         const data = await res.json();
         setTrends(data);
       } catch (error) {
@@ -33,10 +33,10 @@ function Trends() {
   }, []);
 
   useEffect(() => {
-    const socket = io(API_BASE_URL); // Updated socket URL
+    const socket = io(API_BASE_URL);
 
     socket.on("techNews", (data) => {
-      setNews(data.slice(0, 10)); 
+      setNews(data.slice(0, 12));
     });
 
     return () => {
@@ -45,7 +45,7 @@ function Trends() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] text-white p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#0c081c] to-[#1a073e] text-blue-100 p-6">
       <div className="mt-32 flex flex-col items-center text-center">
         <Title text1="Skill" text2="Trends" />
       </div>
@@ -74,28 +74,18 @@ function Trends() {
       </div>
 
       {/* Tech News Section */}
-      <div className="max-w-auto mx-auto mt-10 bg-transpertent text-black p-6 rounded-xl mb-20">
-        <div className=" mb-16 text-center">
-          <Title text1={"Latest"} text2={"Tech News"} />
+      <div className="max-w-7xl mx-auto mt-20 px-4 text-white">
+        <div className="mb-10 text-center">
+          <Title text1="Latest" text2="Tech News" />
         </div>
-        <h2 className="text-2xl font-bold"> </h2>
         {news.length === 0 ? (
-          <p className="text-center text-gray-500">Loading latest tech news...</p>
+          <p className="text-center text-gray-400">Loading latest tech news...</p>
         ) : (
-          <ul className="space-y-4 lg:pl-40 ">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {news.map((article, index) => (
-              <li key={index} className=" p-2 rounded-lg transition-all">
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-white text-xl hover:underline"
-                >
-                  {article.title}
-                </a>
-              </li>
+              <NewsCard key={index} article={article} />
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

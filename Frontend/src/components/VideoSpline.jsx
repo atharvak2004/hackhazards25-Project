@@ -12,7 +12,6 @@ function VideoSpline() {
 
     return (
         <div className="relative w-full h-screen overflow-hidden">
-            {/* Background Spline */}
             <video
                 className="absolute inset-0 w-full h-full object-cover z-0"
                 autoPlay
@@ -23,13 +22,10 @@ function VideoSpline() {
                 <source src="/assets/SplineVideo.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
-            {/* Hacky overlay to hide watermark */}
-            <div className="absolute bottom-4 right-3 w-36 h-12 bg-[#0c081c] z-10 rounded-2xl lg:bg-[#010140]"></div>
-            <div className="absolute bottom-4 left-3 w-36 h-12 bg-[#0c081c] z-10 rounded-2xl lg:bg-[#010140]"></div>
-            {/* Animated Overlayed Titles */}
+
             <div className="absolute inset-0 z-10 flex items-end md:items-center justify-center md:justify-start p-6 md:pl-20 md:pt-24 pb-10 md:pb-0">
                 <motion.div
-                    className="flex flex-col gap-y-3 text-center md:text-left"
+                    className="title-container flex flex-col gap-y-3 text-center md:text-left"
                     initial="initial"
                     animate="animate"
                 >
@@ -57,7 +53,6 @@ function VideoSpline() {
                 </motion.div>
             </div>
         </div>
-
     )
 }
 

@@ -1,9 +1,27 @@
 /* spline.css */
-html, body, #root {
+html,
+body,
+#root {
     height: 100%;
     margin: 0;
     padding: 0;
 }
-canvas + div {
+
+canvas+div {
     display: none !important;
+}
+
+/* Shift titles up for small screens */
+@media (max-width: 640px) {
+    .monoton-regular {
+        margin-top: -10px;
+        /* Adjust this value to control the shift */
+    }
+}
+/* Shifting the entire title block upwards on small screens */
+@media (max-width: 640px) {
+    .title-container {
+      transform: translateY(-30px); /* Adjust this value to control the upward shift */
+    }
   }
+  
